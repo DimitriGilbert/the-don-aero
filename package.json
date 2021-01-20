@@ -1,0 +1,19 @@
+{
+  "name": "thedonaero",
+  "version": "0.0.1",
+  "description": "Test Donald Trump Jr aerodynamic properties",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "fun",
+    "goof",
+    "trump"
+  ],
+  "author": "DimitriGilbert",
+  "license": "LGPL-3.0",
+  "dependencies": {
+    "cfdts": "git+ssh://git@github.com/DimitriGilbert/cfd-ts.git"
+  }
+}
