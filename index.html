@@ -20,14 +20,8 @@
     .section-closed>.section-title{
       text-decoration: underline;
     }
-    /* faq */
-    .faq-item{
-      margin-top: 1rem;
-    }
-    .faq-question{
-      font-size: 1.2rem;
-      font-weight: bolder;
-      text-decoration: underline;
+    .pickaboo{
+      cursor: pointer;
     }
   </style>
 </head>
@@ -145,86 +139,33 @@
           <h3 class="col-12 text-center">
             pick your Don
           </h3>
-          <div class="col">
-            <img src="assets/img/don-ver-angry.png" alt="The Don Very Angry" onclick="fromImg(event.target, document.getElementById('simulationWrapper').firstElementChild)"/>
+          <div class="col pickaboo">
+            <img src="assets/img/don-go-haha.png" alt="The Don haha" onclick="fromImg(event.target, document.getElementById('simulationWrapper').firstElementChild)"/>
           </div>
-          <div class="col">
-            <img src="assets/img/don-meh.png" alt="The Don not sure" onclick="fromImg(event.target, document.getElementById('simulationWrapper').firstElementChild)"/>
-          </div>
-          <div class="col">
+          <div class="col pickaboo">
             <img src="assets/img/don-no-believe.png" alt="The Don no believe" onclick="fromImg(event.target, document.getElementById('simulationWrapper').firstElementChild)"/>
           </div>
-          <div class="col">
-            <img src="assets/img/don-shows-teeth.png" alt="The Don show teeth" onclick="fromImg(event.target, document.getElementById('simulationWrapper').firstElementChild)"/>
-          </div>
-          <div class="col">
+          <div class="col pickaboo">
             <img src="assets/img/don-think.png" alt="The Don Very thinky" onclick="fromImg(event.target, document.getElementById('simulationWrapper').firstElementChild)"/>
           </div>
-          <div class="col">
-            <img src="assets/img/don-go-haha.png" alt="The Don haha" onclick="fromImg(event.target, document.getElementById('simulationWrapper').firstElementChild)"/>
+          <div class="col pickaboo">
+            <img src="assets/img/don-meh.png" alt="The Don not sure" onclick="fromImg(event.target, document.getElementById('simulationWrapper').firstElementChild)"/>
+          </div>
+          <div class="col pickaboo">
+            <img src="assets/img/don-shows-teeth.png" alt="The Don show teeth" onclick="fromImg(event.target, document.getElementById('simulationWrapper').firstElementChild)"/>
+          </div>
+          <div class="col pickaboo">
+            <img src="assets/img/don-ver-angry.png" alt="The Don Very Angry" onclick="fromImg(event.target, document.getElementById('simulationWrapper').firstElementChild)"/>
           </div>
         </div>
         <div id="about" class="d-none">
-          This is a very rudimentary Computational Fluid Dynamics (CFD) simulation based on the <a href="https://en.wikipedia.org/wiki/Lattice_Boltzmann_methods" target="_blank">Lattice Boltzmann Methods</a>.
+          A lil' bit of a giggle using a bit of code I (almost) made. I mean no harm doing this, really just for the cheap joke (I could have gone with Biden, but it's waaaaaay less relevant)
           <br>
-          Most of the hard work comes from <a href="http://physics.weber.edu/schroeder/fluids/" target="_blank">here</a>, and most of the work done was to convert the code to typescript with a smidge of cosmetics ;).
-          <div class="faq">
-            FaQ
-            <div class="faq-item">
-              <div class="faq-question">Can it be used for something ?</div>
-              <div class="faq-answer animate__animated d-none">
-                HELL NO ! hhhmmm, sorry, no not really, you can't do much except have some giggles with it :
-                <ul>
-                  <li>There is no notion of time.</li>
-                  <li>You are limited in the fluid speed.</li>
-                  <li>As of now it is painfully slow as it is CPU only, I started using GPU.js but my implementation is buggy and it's taking me forever, I might finish that and publish it in the future.</li>
-                </ul>
-                It could give you a better idea of what is happening or do quick and dirty test as you can plop an SVG or a PNG and test stuff.
-              </div>
-            </div>
-            <div class="faq-item">
-              <div class="faq-question">It keeps crashing !</div>
-              <div class="faq-answer animate__animated d-none">
-                Yeah, like I said, limited. You could try a few things to help though :
-                <ul>
-                  <li>
-                    reduce flow speed
-                  </li>
-                  <li>
-                    sharp angles tend to accelerate fluid dramatically in this simulation, try rounding off the edges ;)
-                  </li>
-                  <li>
-                    if you are using pulse, reduce speed, stick to pressure close to 1, pulse for a shorter time, space out pulses.
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div class="faq-item">
-              <div class="faq-question">Why..., why did you do that 0_o ??!</div>
-              <div class="faq-answer animate__animated d-none">
-                <p>
-                  TLDR : I couldn't run a single CFD simlation easily on a design I created and I just wanted to see if it was kind of the begining of an idea (no, it was not) so I found something I could use and modified it for my purposes.
-                </p>
-                <p>
-                  Long story, I follow Integza on youtube and he's working on pulsejet and wanted to use a Tesla valve as an inlet, it didn't work as expected.
-                  <br>
-                  BUUUUT, It gave me a "revolutionary idea"™ for a better Tesla valve that I was going to call "hyper-diodicitic conduit", I sent him a enthousiast email and set ou to design the thing on Fusion.
-                  <br>
-                  Couple of hours and a prototype design I just needed to run CFD simulation and it was going to be awesome !
-                  <br>
-                  Riiiight, one small problem though.... none of the software I found worked, local or online.... obviously, I needed to learn how to use them...
-                  <br>
-                  wooooh, look at that shinny toy, it's in javascript, I speak that, I'll probably spend less time modifing it than learning proper CFD, and it's for testing purposes anyway.
-                  <br>
-                  You know the rest as you are here ;)
-                </p>
-              </div>
-            </div>
-            <div class="faq-item">
-              <div class="faq-question"></div>
-              <div class="faq-answer animate__animated d-none"></div>
-            </div>
-          </div>
+          If you still feel the need to hate/threaten/harm/&lt;insert uncool thing to do to someone&gt; me, I think you should consider seeking the help of a mental health professional ;).
+          <br>
+          You can fork, modify and redistribute with the face of you (least) favorite personnality (I'm not a personnality but it could be me ^^). Just link to the original work, that'd be nice :).
+          <br>
+          My <a href="https://dimitrigilbert.github.io/cfd-ts/">cfd</a> code (Work in very slow progress, repo <a href="https://github.com/DimitriGilbert/cfd-ts">here</a>) and what <a href="http://physics.weber.edu/schroeder/fluids/">it's based on</a>
         </div>
       </div>
     </div>
@@ -270,6 +211,11 @@
               }
             }
           }
+
+          for(let _xPx = 0; _xPx < _canvas.width; _xPx++) {
+            sim.addBarrier(_xPx, _canvas.height - 3);
+            sim.addBarrier(_xPx, 2);
+          }
           sim.paintCanvas()
         }
       };
@@ -285,11 +231,11 @@
       sim = new Cfd({
         canvas: document.getElementById('simulationArea'),
         precision: 0,
-        speed: 0.1,
+        speed: 0.015,
         viscosity: 0.02,
-        contrast: 0,
+        contrast: 3,
         animationPrecision: 1,
-        browserAnim: true
+        browserAnim: false
       });
 
       // setup button in nav
