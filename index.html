@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Don Aero</title>
+  <link rel="stylesheet" href="https://bootswatch.com/4/darkly/bootstrap.min.css">
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+  />
+  <style>
+    .section-title{
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .section-closed>.form-group{
+      display:none;
+    }
+    .section-closed>.section-title{
+      text-decoration: underline;
+    }
+    /* faq */
+    .faq-item{
+      margin-top: 1rem;
+    }
+    .faq-question{
+      font-size: 1.2rem;
+      font-weight: bolder;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container-fluid">
+    <div class="row">
+      <ul class="nav">
+        <li class="nav-item">
+          <a id="btn-Menu" class="nav-link" href="#">Menu</a>
+        </li>
+        <li class="nav-item">
+          <a id="btn-Start" class="nav-link" href="#">Start</a>
+        </li>
+        <li class="nav-item">
+          <a id="btn-Reset" class="nav-link" href="#">Reset</a>
+        </li>
+        <li class="nav-item">
+          <a id="btn-Pulse" class="nav-link" href="#">Pulse</a>
+        </li>
+        <li class="nav-item">
+          <a id="btn-about" class="nav-link" href="#" onclick="document.getElementById('about').classList.toggle('d-none');">About</a>
+        </li>
+      </ul>
+    </div>
+    <div class="row">
+      <div id="sidebar" class="col-xl-2 col-md-3 col-sm-5 d-none">
+        <div class="control-bar-section section-closed">
+          <div class="section-title" onclick="event.target.parentNode.classList.toggle('section-closed')">
+            Animation (<span id="anim-speed-readout">0</span> SpS) :
+          </div>
+          <hr />
+          <div class="form-group">
+            <label for="plot-type">Plot Type</label>
+            <select name="plot-type" id="plot-type">
+              <option value="0" selected>density</option>
+              <option value="1">x velocity</option>
+              <option value="2">y velocity</option>
+              <option value="3">speed</option>
+              <option value="4">curl</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="plot-contrast">Contrast (<span id="plot-contrast-readout">0</span>)</label>
+            <input type="range" class="form-control" min="-10" max="10" step="1" value="0" id="plot-contrast" value="0.1"/>
+          </div>
+          <div class="form-group">
+            <label for="plot-precision">Precision</label>
+            <input type="number" class="form-control" value="0" id="plot-precision" />
+          </div>
+        </div>
+        <div class="control-bar-section section-closed">
+          <div class="section-title" onclick="event.target.parentNode.classList.toggle('section-closed')">
+            Parameters :
+          </div>
+          <hr />
+          <div class="form-group">
+            <label for="sim-precision">Precision</label>
+            <input type="number" class="form-control" value="1" id="sim-precision" />
+          </div>
+          <div class="form-group">
+            <label for="sim-speed">Flow Speed (<span id="sim-speed-readout">0.1</span> Mach)</label>
+            <input type="range" class="form-control" min="0" max="0.5" step="0.005" id="sim-speed" value="0.1"/>
+          </div>
+          <!-- <div class="form-group">
+            <label for="sim-rho">Flow Pressure (p = <span id="sim-rho-readout"></span>)</label>
+            <input type="range" class="form-control" min="0" max="1.5" step="0.005" id="sim-rho" />
+          </div> -->
+          <div class="form-group">
+            <label for="sim-visco">Flow Viscosity (<span id="sim-visco-readout">0.02</span>)</label>
+            <input type="range" class="form-control" min="0" max="1" step="0.005" id="sim-visco" value="0.02"/>
+          </div>
+        </div>
+        <div class="control-bar-section section-closed">
+          <div class="section-title" onclick="event.target.parentNode.classList.toggle('section-closed')">
+            Pulse :
+          </div>
+          <hr />
+          <div class="form-group">
+            <label for="sim-pulse-speed">Pulse Speed (<span id="sim-pulse-speed-readout"></span> Mach)</label>
+            <input type="range" class="form-control" min="0" max="0.5" step="0.005" id="sim-pulse-speed" />
+          </div>
+          <div class="form-group">
+            <label for="sim-pulse-rho">Pulse Pressure (p = <span id="sim-pulse-rho-readout"></span>)</label>
+            <input type="range" class="form-control" min="0.02" max="1.5" step="0.01" id="sim-pulse-rho" />
+          </div>
+          <div class="form-group">
+            <label for="sim-pulse-length">Pulse Duration (<span id="sim-pulse-length-readout"></span> ms)</label>
+            <input type="range" class="form-control" min="50" max="5000" step="50" id="sim-pulse-length" />
+          </div>
+          <div class="form-group">
+            <label for="sim-pulse-spacing">Pulse Spacing (<span id="sim-pulse-spacing-readout"></span> ms)</label>
+            <input type="range" class="form-control" min="50" max="5000" step="50" id="sim-pulse-spacing" />
+          </div>
+          <div class="form-group">
+            <label for="sim-pulse-repeat">Repeat</label>
+            <input type="checkbox" class="form-check" id="sim-pulse-repeat" />
+          </div>
+        </div>
+        <div class="control-bar-section section-closed">
+          <div class="section-title" onclick="event.target.parentNode.classList.toggle('section-closed')">
+            Barriers :
+          </div>
+          <hr />
+          <div class="custom-file form-group">
+            <label class="custom-file-label"  for="sim-barrier-img">SVG file as Barrier</label>
+            <input type="file" class="custom-file-input" id="sim-barrier-img" />
+          </div>
+        </div>
+      </div>
+      <div class="col" id="simulationWrapper">
+        <div class="row">
+          <canvas id="simulationArea" width="600" height="240" style="margin-left: auto;margin-right: auto;display: block;"></canvas>
+        </div>
+        <div class="row">
+          <h3 class="col-12 text-center">
+            pick your Don
+          </h3>
+          <div class="col">
+            <img src="assets/img/don-ver-angry.png" alt="The Don Very Angry" onclick="fromImg(event.target, document.getElementById('simulationWrapper').firstElementChild)"/>
+          </div>
+          <div class="col">
+            <img src="assets/img/don-meh.png" alt="The Don not sure" onclick="fromImg(event.target, document.getElementById('simulationWrapper').firstElementChild)"/>
+          </div>
+          <div class="col">
+            <img src="assets/img/don-no-believe.png" alt="The Don no believe" onclick="fromImg(event.target, document.getElementById('simulationWrapper').firstElementChild)"/>
+          </div>
+          <div class="col">
+            <img src="assets/img/don-shows-teeth.png" alt="The Don show teeth" onclick="fromImg(event.target, document.getElementById('simulationWrapper').firstElementChild)"/>
+          </div>
+          <div class="col">
+            <img src="assets/img/don-think.png" alt="The Don Very thinky" onclick="fromImg(event.target, document.getElementById('simulationWrapper').firstElementChild)"/>
+          </div>
+          <div class="col">
+            <img src="assets/img/don-go-haha.png" alt="The Don haha" onclick="fromImg(event.target, document.getElementById('simulationWrapper').firstElementChild)"/>
+          </div>
+        </div>
+        <div id="about" class="d-none">
+          This is a very rudimentary Computational Fluid Dynamics (CFD) simulation based on the <a href="https://en.wikipedia.org/wiki/Lattice_Boltzmann_methods" target="_blank">Lattice Boltzmann Methods</a>.
+          <br>
+          Most of the hard work comes from <a href="http://physics.weber.edu/schroeder/fluids/" target="_blank">here</a>, and most of the work done was to convert the code to typescript with a smidge of cosmetics ;).
+          <div class="faq">
+            FaQ
+            <div class="faq-item">
+              <div class="faq-question">Can it be used for something ?</div>
+              <div class="faq-answer animate__animated d-none">
+                HELL NO ! hhhmmm, sorry, no not really, you can't do much except have some giggles with it :
+                <ul>
+                  <li>There is no notion of time.</li>
+                  <li>You are limited in the fluid speed.</li>
+                  <li>As of now it is painfully slow as it is CPU only, I started using GPU.js but my implementation is buggy and it's taking me forever, I might finish that and publish it in the future.</li>
+                </ul>
+                It could give you a better idea of what is happening or do quick and dirty test as you can plop an SVG or a PNG and test stuff.
+              </div>
+            </div>
+            <div class="faq-item">
+              <div class="faq-question">It keeps crashing !</div>
+              <div class="faq-answer animate__animated d-none">
+                Yeah, like I said, limited. You could try a few things to help though :
+                <ul>
+                  <li>
+                    reduce flow speed
+                  </li>
+                  <li>
+                    sharp angles tend to accelerate fluid dramatically in this simulation, try rounding off the edges ;)
+                  </li>
+                  <li>
+                    if you are using pulse, reduce speed, stick to pressure close to 1, pulse for a shorter time, space out pulses.
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="faq-item">
+              <div class="faq-question">Why..., why did you do that 0_o ??!</div>
+              <div class="faq-answer animate__animated d-none">
+                <p>
+                  TLDR : I couldn't run a single CFD simlation easily on a design I created and I just wanted to see if it was kind of the begining of an idea (no, it was not) so I found something I could use and modified it for my purposes.
+                </p>
+                <p>
+                  Long story, I follow Integza on youtube and he's working on pulsejet and wanted to use a Tesla valve as an inlet, it didn't work as expected.
+                  <br>
+                  BUUUUT, It gave me a "revolutionary idea"™ for a better Tesla valve that I was going to call "hyper-diodicitic conduit", I sent him a enthousiast email and set ou to design the thing on Fusion.
+                  <br>
+                  Couple of hours and a prototype design I just needed to run CFD simulation and it was going to be awesome !
+                  <br>
+                  Riiiight, one small problem though.... none of the software I found worked, local or online.... obviously, I needed to learn how to use them...
+                  <br>
+                  wooooh, look at that shinny toy, it's in javascript, I speak that, I'll probably spend less time modifing it than learning proper CFD, and it's for testing purposes anyway.
+                  <br>
+                  You know the rest as you are here ;)
+                </p>
+              </div>
+            </div>
+            <div class="faq-item">
+              <div class="faq-question"></div>
+              <div class="faq-answer animate__animated d-none"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    window.addEventListener('load', () => {
+      let questions = document.getElementsByClassName('faq-question');
+      for(let question of questions) {
+        question.addEventListener('click', (evt) => {
+          evt.target.nextElementSibling.classList.toggle('animate__fadeInDown')
+          evt.target.nextElementSibling.classList.toggle('d-none')
+        });
+      }
+    });
+  
+    function fromImg(img, wrapperElt) {
+      if (wrapperElt === undefined) {
+        wrapperElt = document.getElementById('simulationWrapper')||document.body;
+      }
+      if (document.getElementById('simulationBarrierImg') !== null) {
+        document.getElementById('simulationBarrierImg').parentNode.removeChild(document.getElementById('simulationBarrierImg'));
+      }
+      let _canvas = document.createElement('canvas');
+      var simPos = document.getElementById('simulationArea').getBoundingClientRect();
+      _canvas.id = "simulationBarrierImg";
+      _canvas.width = 600;
+      _canvas.height = 240;
+      _canvas.style.position = 'absolute';
+      _canvas.style.left = simPos.left+'px';
+      _canvas = wrapperElt.appendChild(_canvas);
+      let _context = _canvas.getContext('2d');
+
+      let image__ = new Image();    
+      image__.onload = () => {
+        if (_context !== null) {          
+          _context.drawImage(image__, 200, 20);
+          sim.clearBarriers()      
+          for(let _yPx = 0; _yPx < _canvas.height; _yPx++) {
+            for(let _xPx = 0; _xPx < _canvas.width; _xPx++) {
+              let pxData = _context.getImageData(_xPx, _yPx, 1, 1).data;
+              if(pxData[0] != 0 || pxData[1] != 0 || pxData[2] != 0 || pxData[3] != 0) {
+                sim.addBarrier(_xPx, _canvas.height - _yPx);
+              }
+            }
+          }
+          sim.paintCanvas()
+        }
+      };
+      image__.src = img.src;
+    }
+  </script>
+  <script src="node_modules/cfdts/build/bundle.js"></script>
+  <script>
+    // var lbm = new LBM(10, 10, 0.02);
+    var sim;
+    window.addEventListener('load', () => {
+      // init simulation
+      sim = new Cfd({
+        canvas: document.getElementById('simulationArea'),
+        precision: 0,
+        speed: 0.1,
+        viscosity: 0.02,
+        contrast: 0,
+        animationPrecision: 1,
+        browserAnim: true
+      });
+
+      // setup button in nav
+      // col-xl-10 col-md-9 col-sm-7
+      document.getElementById('btn-Menu').addEventListener('click', (evt) => {
+        document.getElementById('sidebar').classList.toggle('d-none');
+        document.getElementById('simulationWrapper').classList.toggle('col');
+        document.getElementById('simulationWrapper').classList.toggle('col-xl-10');
+        document.getElementById('simulationWrapper').classList.toggle('col-md-9');
+        document.getElementById('simulationWrapper').classList.toggle('col-sm-7');
+      })
+      document.getElementById('btn-Start').addEventListener('click', (evt) => {
+        sim.startStop()
+        if (sim.running) {
+          evt.target.innerHTML = "Stop";
+          // document.getElementById('btn-Step').setAttribute('disabled', true);
+        }
+        else {
+          evt.target.innerHTML = "Start";
+          // document.getElementById('btn-Step').removeAttribute('disabled');
+        }
+      })
+      // document.getElementById('btn-Step').addEventListener('click', (evt) => {
+      //   sim.simulate();
+      // })
+      document.getElementById('btn-Reset').addEventListener('click', (evt) => {
+        sim.initFluid();
+      })
+      document.getElementById('btn-Pulse').addEventListener('click', (evt) => {
+        if (sim.pulser !== undefined && sim.pulser !== null) {
+          sim.pulser.spacing = undefined;
+        } else {
+          sim.pulse(
+            document.getElementById('sim-pulse-speed').value,
+            document.getElementById('sim-pulse-rho').value,
+            document.getElementById('sim-pulse-length').value,
+            document.getElementById('sim-pulse-repeat').checked?document.getElementById('sim-pulse-spacing').value:undefined
+          );
+        }
+      })
+
+      // setup sidebar control interaction
+      // animation parameters
+      sim.speedReadoutElt = document.getElementById('anim-speed-readout');
+      document.getElementById('plot-type').addEventListener('change', (evt) => {
+        if (evt.target !== null) {
+          sim.plotType = evt.target.value;
+        }
+      })
+      document.getElementById('plot-precision').addEventListener('change', (evt) => {
+        if (evt.target !== null) {
+          sim.animationPrecision = evt.target.value;
+        }
+      })
+      document.getElementById('plot-contrast').addEventListener('change', (evt) => {
+        if (evt.target !== null) {
+          sim.contrast = evt.target.value;
+          document.getElementById('plot-contrast-readout').innerText = sim.contrast;
+        }
+      })
+      // simulation parameters
+      document.getElementById('sim-precision').addEventListener('change', (evt) => {
+        if (evt.target !== null) {
+          sim.precision = evt.target.value;
+        }
+      })
+      document.getElementById('sim-speed').addEventListener('change', (evt) => {
+        if (evt.target !== null) {
+          sim.speed = evt.target.value;
+          document.getElementById('sim-speed-readout').innerText = sim.speed;
+        }
+      })
+      document.getElementById('sim-visco').addEventListener('change', (evt) => {
+        if (evt.target !== null) {
+          sim.viscosity = evt.target.value;
+          document.getElementById('sim-visco-readout').innerText = sim.viscosity;
+        }
+      })
+      // pulse parameters
+      document.getElementById('sim-pulse-speed').addEventListener('change', (evt) => {
+        document.getElementById('sim-pulse-speed-readout').innerText = evt.target.value;
+        if (sim.pulser !== undefined && sim.pulser !== null) {
+          sim.pulser.speed = evt.target.value;
+        }
+      });
+      document.getElementById('sim-pulse-rho').addEventListener('change', (evt) => {
+        document.getElementById('sim-pulse-rho-readout').innerText = evt.target.value;
+        if (sim.pulser !== undefined && sim.pulser !== null) {
+          sim.pulser.pressure = evt.target.value;
+        }
+      });
+      document.getElementById('sim-pulse-length').addEventListener('change', (evt) => {
+        document.getElementById('sim-pulse-length-readout').innerText = evt.target.value;
+        if (sim.pulser !== undefined && sim.pulser !== null) {
+          sim.pulser.duration = evt.target.value;
+        }
+      });
+      document.getElementById('sim-pulse-spacing').addEventListener('change', (evt) => {
+        document.getElementById('sim-pulse-spacing-readout').innerText = evt.target.value;
+        if (
+          sim.pulser !== undefined
+          && sim.pulser !== null
+          && sim.pulser.spacing !== undefined
+          && sim.pulser.spacing !== null
+        ) {
+          sim.pulser.spacing = evt.target.value;
+        }
+      });
+      document.getElementById('sim-pulse-repeat').addEventListener('click', (evt) => {
+        if (evt.target.checked) {
+          if (sim.pulser.spacing !== null) {
+            sim.pulser.spacing = document.getElementById('sim-pulse-spacing').value;
+          }
+        }
+        else {
+          sim.stopPulse();
+          // sim.pulser.spacing = null;
+        }
+      });
+      // barriers parameters
+      document.getElementById('sim-barrier-img').addEventListener('change', (evt) => {
+        if (evt.target !== null && evt.target.files.length > 0) {
+          sim.fromSvg(evt.target.files[0]);
+        }
+      })
+    })
+  </script>
+</body>
+</html>
